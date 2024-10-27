@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{657D65A4-ACD7-42B1-88C8-0C09FA1C1514}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infastructure", "Infastructure\Infastructure.csproj", "{0D51A511-6BBC-4AF5-AE1B-EE0C56A6B93F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketWiseUI", "TicketWiseUI\TicketWiseUI.csproj", "{967D0960-7BFF-40FF-8E9D-815F21CA7BE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{657D65A4-ACD7-42B1-88C8-0C09FA1C1514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{657D65A4-ACD7-42B1-88C8-0C09FA1C1514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{657D65A4-ACD7-42B1-88C8-0C09FA1C1514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{657D65A4-ACD7-42B1-88C8-0C09FA1C1514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D51A511-6BBC-4AF5-AE1B-EE0C56A6B93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D51A511-6BBC-4AF5-AE1B-EE0C56A6B93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D51A511-6BBC-4AF5-AE1B-EE0C56A6B93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D51A511-6BBC-4AF5-AE1B-EE0C56A6B93F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{967D0960-7BFF-40FF-8E9D-815F21CA7BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{967D0960-7BFF-40FF-8E9D-815F21CA7BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{967D0960-7BFF-40FF-8E9D-815F21CA7BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{967D0960-7BFF-40FF-8E9D-815F21CA7BE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
