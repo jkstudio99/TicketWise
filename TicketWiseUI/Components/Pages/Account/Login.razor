@@ -1,57 +1,79 @@
 @page "/login"
+@layout EmptyLayout 
 @using System.ComponentModel.DataAnnotations
+@using Domain.DTOs.Request
 @using Domain.Entities
 @using Domain.Interfaces
 @using Microsoft.AspNetCore.Identity
-@using Domain.DTOs.Response
-@using Microsoft.AspNetCore.Identity.Data
-@inject IAccountService accountService
+@inject IAccountService AccountService
 @inject SignInManager<User> SignInManager
-@inject NavigationManager NavigationManager
+@inject NavigationManager nav
+<section class="vh-100 d-flex align-items-center">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5 mb-4 mb-lg-0">
+                <img src="/assets/imgs/login4.png" class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <div class="logo">
+                    <img src="/assets/logo/Ticketwise-logo-black.svg" alt="Logo" style="width: 250px;" class="img-fluid">
+                </div>
+                <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                    <p class="lead fw-normal mb-0 me-3">เข้าสู่ระบบด้วยอีเมล</p>
+                </div>
+                <MudAlert Severity="Severity.Success" Variant="Variant.Filled">
+                    The reactor is running at optimum temperature
+                </MudAlert>
+                <EditForm Model="Input" method="post" OnValidSubmit="OnLogin" FormName="Login">
+                    <DataAnnotationsValidator/>
+                    <hr/>
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Input.Email" class="form-control" aria-required="true"/>
+                        <label for="email" class="form-label">Email</label>
+                        <ValidationMessage For="() => Input.Email" class="text-danger"/>
+                    </div>
 
-<h1>Login</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <EditForm Model="Input" method="post" OnValidSubmit="OnLogin" FormName="Login">
-                <DataAnnotationsValidator />
-                <hr />
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Email" class="form-control" aria-required="true" />
-                    <label for="email" class="form-label">Email</label>
-                    <ValidationMessage For="() => Input.Email" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText type="password" @bind-Value="Input.Password" class="form-control" aria-required="true" />
-                    <label for="password" class="form-label">Password</label>
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputCheckbox @bind-Value="Input.Remember" class="form-check-input" />
-                    <label for="remember" class="form-label">Remember me</label>
-                </div>
-                <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Login</button>
-                </div>
-            </EditForm>
-        </section>
+                    <div class="form-floating mb-3">
+                        <InputText type="password" @bind-Value="Input.Password" class="form-control" aria-required="true"/>
+                        <label for="password" class="form-label">Password</label>
+                        <ValidationMessage For="() => Input.Password" class="text-danger"/>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <InputCheckbox @bind-Value="Input.Remember"/>
+                        Remember me
+                    </div>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" type="submit" class="w-100 btn btn-lg btn-primary">เข้าสู่ระบบ</MudButton>
+                    <button type="submit" class="w-100 btn btn-lg btn-primary">เข้าสู่ระบบ</button>
+                </EditForm>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 @code {
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
+
+    protected  override async Task OnInitializedAsync()
+    {
+        await AccountService.RegisterUser(new RegisterUserRequest
+        {
+            Email = "test@gmail.com",
+            Role = "Admin"
+        });
+    }
     
     private async Task OnLogin()
     {
-        var verify = await accountService.VerifyUser(Input.Email, Input.Password);
+        var verify = await AccountService.VerifyUser(Input.Email, Input.Password);
         if (!verify.IsSuccess)
         {
-            // Handle error
+            // Alert
             return;
         }
         await SignInManager.PasswordSignInAsync(verify.Value, Input.Password, Input.Remember, false);
-        NavigationManager.NavigateTo("/");
+        nav.NavigateTo("/");
     }
 
     private class InputModel

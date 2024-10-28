@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+      <PackageReference Include="MudBlazor" Version="7.14.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Infastructure\Infastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Components\Pages\Account\Login.razor.css">
+        <DependentUpon>Login.razor</DependentUpon>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\Shared\" />
+    </ItemGroup>
+
+</Project>

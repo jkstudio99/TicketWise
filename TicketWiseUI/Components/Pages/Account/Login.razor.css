@@ -1,0 +1,35 @@
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+section.vh-100 {
+    min-height: 100vh;
+}
+.h-custom {
+    height: 100%;
+    
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Ensures vertical centering */
+    align-items: center;
+    height: 100%;
+}
+@media (max-width: 450px) {
+    .h-custom {
+        height: 100%;
+    }
+}
