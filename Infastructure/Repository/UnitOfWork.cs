@@ -6,13 +6,13 @@ namespace Infastructure.Repository;
 
 public class UnitOfWork : IUnitOfWork
 {
+    public ITicketRepository TicketRepository { get; }
     private readonly IdentityDbContext context;
     private Hashtable repositories;
-    private IUnitOfWork _unitOfWorkImplementation;
-
-    public UnitOfWork(IdentityDbContext context)
+    public UnitOfWork(IdentityDbContext context, ITicketRepository ticketRepository)
     {
         this.context = context;
+        TicketRepository = ticketRepository;
     }
 
     public async Task<int> SaveChange()

@@ -5,9 +5,10 @@
 @using Domain.Entities
 @using Domain.Interfaces
 @using Microsoft.AspNetCore.Identity
+@using TicketWiseUI.DTOs
 @inject IAccountService AccountService
 @inject NavigationManager nav
-
+@inject EncryptionHelper<LoginDTO> encrypt
 @rendermode InteractiveServer
 <section class="vh-100 d-flex align-items-center">
     <div class="container-fluid h-custom">
@@ -62,7 +63,15 @@
             alert?.ShowFailed(verify.ErrorMessage ?? "Authentication failed. Please try again.");
             return;
         }
-        nav.NavigateTo($"/processor/{verify.Value}/{Input.Password}/{Input.Remember}");
+
+        var loginData = new LoginDTO
+        {
+            Username = verify.Value,
+            Password = Input.Password,
+            RememberMe = Input.Remember
+        };
+        var payload = encrypt.Encode(loginData);
+        nav.NavigateTo($"/processor/{payload}");
     }
 
     private class InputModel

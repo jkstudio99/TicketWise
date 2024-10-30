@@ -1,31 +1,24 @@
 // Processor Page for Authentication
-@page "/processor/{username}/{password}/{rememberme:bool}"
+@page "/processor/{payload}"
 @using Domain.Entities
 @using Microsoft.AspNetCore.Identity
 @layout EmptyLayout
 
 @inject SignInManager<User> SignInManager
 @inject NavigationManager nav
+@inject EncryptionHelper<LoginDTO> encrypt
 
 Sign In...
 
 @code {
-    [Parameter] public string username { get; set; }
-    [Parameter] public string password { get; set; }
-    [Parameter] public bool rememberme { get; set; }
+   [Parameter] public string payload { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        var loginDTO = encrypt.Decode(payload);
         // Attempt to sign in
-        var signInResult = await SignInManager.PasswordSignInAsync(username, password, rememberme, lockoutOnFailure: false);
-        if (signInResult.Succeeded)
-        {
-            nav.NavigateTo("/");
-        }
-        else
-        {
-            // Handle failed login attempts here (e.g., navigate back to login with an error message)
-            nav.NavigateTo("/login?error=LoginFailed");
-        }
+        await SignInManager.PasswordSignInAsync(loginDTO.Username, loginDTO.Password, loginDTO.RememberMe , false);
+        nav.NavigateTo("/");
+      
     }
 }
