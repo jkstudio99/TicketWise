@@ -6,8 +6,9 @@
 @using Domain.Interfaces
 @using Microsoft.AspNetCore.Identity
 @inject IAccountService AccountService
-@inject SignInManager<User> SignInManager
 @inject NavigationManager nav
+
+@rendermode InteractiveServer
 <section class="vh-100 d-flex align-items-center">
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -21,9 +22,7 @@
                 <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                     <p class="lead fw-normal mb-0 me-3">เข้าสู่ระบบด้วยอีเมล</p>
                 </div>
-                <MudAlert Severity="Severity.Success" Variant="Variant.Filled">
-                    The reactor is running at optimum temperature
-                </MudAlert>
+                <Alert @ref="alert" />
                 <EditForm Model="Input" method="post" OnValidSubmit="OnLogin" FormName="Login">
                     <DataAnnotationsValidator/>
                     <hr/>
@@ -43,37 +42,27 @@
                         <InputCheckbox @bind-Value="Input.Remember"/>
                         Remember me
                     </div>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" type="submit" class="w-100 btn btn-lg btn-primary">เข้าสู่ระบบ</MudButton>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">เข้าสู่ระบบ</button>
+                    <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" type="submit" class="w-100">เข้าสู่ระบบ</MudButton>
                 </EditForm>
             </div>
         </div>
     </div>
 </section>
-
 @code {
+    private Alert alert;
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
 
-    protected  override async Task OnInitializedAsync()
-    {
-        await AccountService.RegisterUser(new RegisterUserRequest
-        {
-            Email = "test@gmail.com",
-            Role = "Admin"
-        });
-    }
-    
     private async Task OnLogin()
     {
         var verify = await AccountService.VerifyUser(Input.Email, Input.Password);
         if (!verify.IsSuccess)
         {
-            // Alert
+            // Display alert if verification fails
+            alert?.ShowFailed(verify.ErrorMessage ?? "Authentication failed. Please try again.");
             return;
         }
-        await SignInManager.PasswordSignInAsync(verify.Value, Input.Password, Input.Remember, false);
-        nav.NavigateTo("/");
+        nav.NavigateTo($"/processor/{verify.Value}/{Input.Password}/{Input.Remember}");
     }
 
     private class InputModel
